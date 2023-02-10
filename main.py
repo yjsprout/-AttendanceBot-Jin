@@ -3,7 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix="!", intents = discord.Intents.default())
-TOKEN = "MTA2MjkxNjU2NDMzNDE0OTczNA.G6QQ23.evo2wsorKEKq-4lXwHQKEwMHk7IbROV1X0DfZs"
+TOKEN = "MTA2MzMwMTQxODMzNDgxNDIxOA.G3nJsC.ZabsvX-pr4wZCLusILVV7wEAieWG9khDB3QJnE"
 @bot.event
 async def on_ready():
     print("봇 실행됨")
