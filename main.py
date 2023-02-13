@@ -5,8 +5,10 @@ from discord.ext import commands
 from datetime import datetime
 import sqlite3
 
+import itertools
+
 bot = commands.Bot(command_prefix="!", intents = discord.Intents.default())
-TOKEN = "MTA2MzMwMTQxODMzNDgxNDIxOA.G8yHtQ.iGjiejod5DCknlQHAQnyS2xjcTEFetyh1gQ2es"
+TOKEN = "MTA2MzMwMTQxODMzNDgxNDIxOA.G71WwG.aMQPwQOXBD4hxGBg6WYA4kBfonCcDt1WnzNsw8"
 
 @bot.event
 async def on_ready():
@@ -29,7 +31,7 @@ async def att(interaction: discord.Interaction):
     conn = sqlite3.connect('Attendance.db')
     cur = conn.cursor()
     sql1 = "CREATE TABLE IF NOT EXISTS attTBL(name text,date text, time text);"
-    sql2 = "INSERT INTO attTBL(name,date,text) values (?,?);"
+    sql2 = "INSERT INTO attTBL(name,date,time) values (?,?,?);"
     cur.execute(sql1)
     cur.execute(sql2, (interaction.user.display_name, date_rec, time_rec))
     conn.commit()
@@ -45,11 +47,10 @@ async def db(interaction: discord.Interaction):
     conn = sqlite3.connect('Attendance.db')
     cur = conn.cursor()
     cur.execute('SELECT * FROM attTBL')
-    lrow=[]
+    db_list=[]
     for row in cur:
-        lrow.append(list(row))
-    lrow.sort()
-    await interaction.response.send_message(f"{lrow}")
+        db_list.append(list(row))
+    await interaction.response.send_message(f"{db_list}")
     cur.close()
 
 @bot.tree.command(name="resetdb")
@@ -67,14 +68,15 @@ async def check(interaction:discord.Interaction):
     cur = conn.cursor()
     sql4 = "SELECT name FROM attTBL"
     cur.execute(sql4)
-    lrow=[]
+    appeared = []
     for row in cur:
-        lrow.append(list(row))
-    lrow.sort()
-    members=['김주미', '양진']
-    for i in lrow:
+        appeared.append(list(row))
+    appeared2 = list(itertools.chain(*appeared))
+    members = ['김주미', '양진', '김세연']
+    for i in appeared2:
         members.remove(i)
-    await interaction.response.send_message(f"출석하지 않은 명단 : {members}")
+    absent = members
+    await interaction.response.send_message(f"출석 하지 않은 분들 명단 : {absent}")
     cur.close()
 
 bot.run(TOKEN)
