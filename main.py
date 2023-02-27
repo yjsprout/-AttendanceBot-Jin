@@ -1,5 +1,4 @@
 import discord
-from discord import app_commands
 from discord.ext import commands
 
 from datetime import datetime
@@ -8,7 +7,7 @@ import sqlite3
 import itertools
 
 bot = commands.Bot(command_prefix="!", intents = discord.Intents.default())
-TOKEN = "MTA2MzMwMTQxODMzNDgxNDIxOA.G71WwG.aMQPwQOXBD4hxGBg6WYA4kBfonCcDt1WnzNsw8"
+TOKEN = "MTA2MzMwMTQxODMzNDgxNDIxOA.GBC4v0.7MXxsqUWQ_b8noC7KoHT6DEXNlIKwJ8fDxfCG0"
 
 @bot.event
 async def on_ready():
@@ -37,10 +36,6 @@ async def att(interaction: discord.Interaction):
     conn.commit()
     cur.close()
 
-@bot.tree.command(name="say")
-@app_commands.describe(thing_to_say = "What should I say?")
-async def say(interaction: discord.Interaction, thing_to_say: str):
-    await interaction.response.send_message(f"{interaction.user.name} said: '{thing_to_say}'")
 
 @bot.tree.command(name="db조회")
 async def db(interaction: discord.Interaction):
